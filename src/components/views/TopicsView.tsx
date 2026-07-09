@@ -67,7 +67,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
       )}
 
       {/* Search */}
-      <div className="sticky top-0 z-10 bg-bg pb-3">
+      <div className="sticky top-0 z-20 -mt-5 -mx-12 px-12 pt-5 pb-3 bg-bg/70 backdrop-blur-xl border-b border-border/60">
         <div className="flex items-center gap-2.5 mb-2">
           <input
             value={query}
@@ -173,11 +173,11 @@ function TopicRow({ topic, todayStr, onClick }: { topic: Topic; todayStr: string
       <div className="flex justify-between items-center gap-2">
         <span className="text-[14px] font-medium text-white flex-1">{topic.name}</span>
         <div className="flex items-center gap-1.5 shrink-0">
-          <span className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${LEVEL_TAG[topic.level]}`}>{topic.level}</span>
           {isDue && <span className="bg-[#431407] text-orange-400 text-[11px] font-semibold px-1.5 py-0.5 rounded">due</span>}
           {notStarted
             ? <span className="text-[13px] text-faint">not started</span>
             : <span className="text-[13px] font-semibold" style={{ color }}>{topic.score}/5</span>}
+          <span className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${LEVEL_TAG[topic.level]}`}>{topic.level}</span>
         </div>
       </div>
       {!notStarted && (

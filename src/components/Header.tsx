@@ -1,4 +1,5 @@
 import type { Subject } from '../types'
+import { InstallButton } from './InstallButton'
 
 interface Props {
   subjects: Subject[]
@@ -30,6 +31,7 @@ export function Header({ subjects, activeId, onSubjectChange, onHome, onLogout, 
       </div>
       <div className="flex items-center gap-4">
         {streak > 0 && <span className="text-orange-400 font-bold text-lg">{streak}🔥</span>}
+        <InstallButton />
         <button onClick={onLogout} className="text-dim text-sm hover:text-muted transition-colors">
           Sign out
         </button>
