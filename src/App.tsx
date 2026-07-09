@@ -14,7 +14,7 @@ type Tab = 'topics' | 'sessions' | 'methods'
 
 export default function App() {
   const { session, loading: authLoading, login, logout } = useAuth()
-  const { subjects, loading: dashLoading } = useDashboard()
+  const { subjects, loading: dashLoading } = useDashboard(!!session)
   const [activeSubjectId, setActiveSubjectId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('topics')
   const [openTopicId, setOpenTopicId] = useState<string | null>(null)

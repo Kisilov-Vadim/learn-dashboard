@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { rpc } from '../lib/supabase'
 import type { Subject } from '../types'
 
-export function useDashboard() {
+export function useDashboard(enabled: boolean) {
   const [subjects, setSubjects] = useState<Subject[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function load() {
@@ -19,7 +19,10 @@ export function useDashboard() {
     }
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => {
+    if (!enabled) return
+    load()
+  }, [enabled])
 
   return { subjects, loading, error, reload: load }
 }
