@@ -3,6 +3,14 @@ import { Heatmap } from '../Heatmap'
 import { SessionPanel } from '../SessionPanel'
 import { formatDate } from '../../lib/utils'
 
+function startTime(items: Touch[]): string {
+  const earliest = items.reduce((a, b) => a.createdAt < b.createdAt ? a : b)
+  const d = new Date(earliest.createdAt)
+  const h = String(d.getHours()).padStart(2, '0')
+  const m = String(d.getMinutes()).padStart(2, '0')
+  return `${h}:${m}`
+}
+
 function formatDuration(items: Touch[]): string {
   if (items.length < 2) return ''
   const times = items.map(t => new Date(t.createdAt).getTime())
@@ -62,7 +70,7 @@ export function SessionsView({ touches, topics, streak, onOpenTopic }: Props) {
             style={{ borderLeft: `3px solid ${borderColor}`, background: selectedDate === date ? '#2d1f4e' : undefined }}
           >
             <div className="flex justify-between items-center">
-              <span className="text-[15px] font-semibold text-white">{formatDate(date)}</span>
+              <span className="text-[15px] font-semibold text-white">{formatDate(date)} <span className="text-dim font-normal text-[13px]">· {startTime(items)}</span></span>
               <div className="flex items-center gap-2">
                 {duration && <span className="text-[13px] text-dim">{duration}</span>}
                 <span className="text-[14px] font-medium text-accent">{items.length} touch{items.length !== 1 ? 'es' : ''}</span>
