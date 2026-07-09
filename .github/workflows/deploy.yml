@@ -15,8 +15,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-      - run: npm install
+      - run: node --version && npm --version
+      - run: npm install --loglevel verbose
+        continue-on-error: true
+      - run: cat ~/.npm/_logs/*.log 2>/dev/null || echo "no logs"
       - run: npm run build
       - uses: peaceiris/actions-gh-pages@v4
         with:
