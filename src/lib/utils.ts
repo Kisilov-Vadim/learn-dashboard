@@ -38,11 +38,9 @@ export function formatDate(dateStr: string) {
 
 export function formatDateTime(isoStr: string) {
   const d = new Date(isoStr)
-  const h = d.getHours()
+  const h = String(d.getHours()).padStart(2, '0')
   const min = String(d.getMinutes()).padStart(2, '0')
-  const ampm = h >= 12 ? 'PM' : 'AM'
-  const h12 = h % 12 || 12
-  return `${MONTH_SHORT[d.getMonth()]} ${d.getDate()} · ${h12}:${min} ${ampm}`
+  return `${MONTH_SHORT[d.getMonth()]} ${d.getDate()} · ${h}:${min}`
 }
 
 export function today() {
