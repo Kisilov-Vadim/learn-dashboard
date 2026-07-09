@@ -4,12 +4,18 @@ import { CommandBlock } from './CommandBlock'
 interface Props {
   subjects: Subject[]
   onSelect: (id: string) => void
+  onLogout: () => void
 }
 
-export function SubjectCards({ subjects, onSelect }: Props) {
+export function SubjectCards({ subjects, onSelect, onLogout }: Props) {
   return (
     <div className="min-h-screen bg-bg px-12 pt-10 pb-12">
-      <div className="text-accent text-2xl font-bold mb-8 tracking-tight">Learn</div>
+      <div className="flex justify-between items-center mb-8">
+        <div className="text-accent text-2xl font-bold tracking-tight">Learn</div>
+        <button onClick={onLogout} className="text-dim text-sm hover:text-muted transition-colors">
+          Sign out
+        </button>
+      </div>
       <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
         {subjects.map(s => (
           <button

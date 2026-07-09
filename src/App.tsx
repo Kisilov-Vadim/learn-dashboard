@@ -34,6 +34,7 @@ export default function App() {
       <SubjectCards
         subjects={subjects}
         onSelect={id => { setActiveSubjectId(id); setActiveTab('topics') }}
+        onLogout={logout}
       />
     )
   }
