@@ -12,10 +12,11 @@ function startTime(items: Touch[]): string {
 }
 
 function formatDuration(items: Touch[]): string {
-  if (items.length < 2) return ''
+  if (items.length === 0) return ''
+  if (items.length === 1) return '< 1m'
   const times = items.map(t => new Date(t.createdAt).getTime())
   const mins = Math.round((Math.max(...times) - Math.min(...times)) / 60000)
-  if (mins < 1) return ''
+  if (mins < 1) return '< 1m'
   if (mins < 60) return `${mins}m`
   const h = Math.floor(mins / 60)
   const m = mins % 60
