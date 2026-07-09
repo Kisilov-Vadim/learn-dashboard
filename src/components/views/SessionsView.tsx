@@ -2,6 +2,17 @@ import { useMemo, useState } from 'react'
 import { Heatmap } from '../Heatmap'
 import { SessionPanel } from '../SessionPanel'
 import { formatDate } from '../../lib/utils'
+
+function formatDuration(items: Touch[]): string {
+  if (items.length < 2) return ''
+  const times = items.map(t => new Date(t.createdAt).getTime())
+  const mins = Math.round((Math.max(...times) - Math.min(...times)) / 60000)
+  if (mins < 1) return ''
+  if (mins < 60) return `${mins}m`
+  const h = Math.floor(mins / 60)
+  const m = mins % 60
+  return m > 0 ? `${h}h ${m}m` : `${h}h`
+}
 import type { Touch, Topic } from '../../types'
 
 interface Props {
@@ -41,6 +52,7 @@ export function SessionsView({ touches, topics, streak, onOpenTopic }: Props) {
         const totalDelta = items.reduce((s, i) => s + (i.scoreAfter - i.scoreBefore), 0)
         const borderColor = totalDelta > 0 ? '#22c55e' : totalDelta < 0 ? '#ef4444' : '#475569'
         const topicNamesPreview = [...new Set(items.map(i => topicNames.get(i.topicId) ?? i.topicId))].join(', ')
+        const duration = formatDuration(items)
 
         return (
           <div
@@ -51,7 +63,10 @@ export function SessionsView({ touches, topics, streak, onOpenTopic }: Props) {
           >
             <div className="flex justify-between items-center">
               <span className="text-[15px] font-semibold text-white">{formatDate(date)}</span>
-              <span className="text-[14px] font-medium text-accent">{items.length} touch{items.length !== 1 ? 'es' : ''}</span>
+              <div className="flex items-center gap-2">
+                {duration && <span className="text-[13px] text-dim">{duration}</span>}
+                <span className="text-[14px] font-medium text-accent">{items.length} touch{items.length !== 1 ? 'es' : ''}</span>
+              </div>
             </div>
             <div className="text-[13px] text-dim mt-0.5 truncate">{topicNamesPreview}</div>
           </div>
