@@ -97,6 +97,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
       </div>
 
       {/* Flat search results */}
+      <div className="pt-3.5">
       {isSearching ? (
         filtered.length === 0
           ? <div className="text-center text-faint text-sm py-10">No topics match your search.</div>
@@ -154,6 +155,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
           })}
         </div>
       )}
+      </div>
     </div>
   )
 }
