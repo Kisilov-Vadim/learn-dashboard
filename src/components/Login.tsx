@@ -64,16 +64,8 @@ export function Login({ onLogin }: Props) {
               Run these in your terminal to add <span className="text-muted font-mono">/learn</span> to Claude Code.
             </p>
           </div>
-          <div className="flex flex-col gap-3">
-            <CommandBlock
-              label="1. Register the marketplace"
-              command="claude plugin marketplace add Kisilov-Vadim/learn-claude-plugin"
-            />
-            <CommandBlock
-              label="2. Install the plugin"
-              command="claude plugin install learn@learn-marketplace"
-            />
-          </div>
+          <CommandBlock command="claude plugin marketplace add Kisilov-Vadim/learn-claude-plugin && claude plugin install learn@learn-marketplace" />
+
           <p className="text-faint text-xs">
             Then restart Claude Code and type <span className="text-dim font-mono">/learn</span> to start.
           </p>
