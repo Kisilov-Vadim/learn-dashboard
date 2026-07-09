@@ -67,7 +67,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
       )}
 
       {/* Search */}
-      <div className="sticky top-0 z-20 -mt-5 -mx-12 px-12 pt-5 pb-3 bg-bg/70 backdrop-blur-xl border-b border-border/60">
+      <div className="sticky -top-5 z-20 -mt-5 -mx-12 px-12 pt-5 pb-3 bg-bg/85 backdrop-blur-xl border-b border-border/60">
         <div className="flex items-center gap-2.5 mb-2">
           <input
             value={query}
