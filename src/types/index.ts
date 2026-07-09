@@ -6,15 +6,12 @@ export type Effectiveness = 'high' | 'medium' | 'low'
 export interface Subject {
   id: string
   name: string
-  goal: string
-  currentLevel: Level
-  targetLevel: Level
   streak: number
-  lastUpdated: string | null
+  currentLevel: Level
   totalTopics: number
-  masteredTopics: number
-  learningTopics: number
+  mastered: number
   dueToday: number
+  completion: number
 }
 
 export interface Topic {

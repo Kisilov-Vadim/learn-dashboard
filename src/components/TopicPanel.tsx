@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTopic } from '../hooks/useSubject'
 import { scoreBorderColor, scoreGradient, formatDate, formatDateTime, formatMethod, capitalize, today } from '../lib/utils'
+import type { Touch } from '../types'
 
 interface Props {
   topicId: string | null

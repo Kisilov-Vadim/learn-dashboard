@@ -10,8 +10,8 @@ export function useDashboard() {
   async function load() {
     try {
       setLoading(true)
-      const data = await rpc<Subject[]>('get_dashboard')
-      setSubjects(data ?? [])
+      const data = await rpc<{ subjects: Subject[] }>('get_dashboard')
+      setSubjects(data?.subjects ?? [])
     } catch (e) {
       setError((e as Error).message)
     } finally {
