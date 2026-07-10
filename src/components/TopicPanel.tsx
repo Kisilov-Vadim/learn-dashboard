@@ -43,12 +43,12 @@ export function TopicPanel({ topicId, onClose }: Props) {
                   <div className="flex gap-2 mb-4">
                     {[
                       {
-                        value: <>{topic.score}<span className="text-faint text-sm">/5</span></>,
+                        value: <>{topic.score}<span className="text-faint text-sm">/{topic.desiredScore}</span></>,
                         valueStyle: { color: scoreBorderColor(topic.score) },
                         label: 'current score',
                         sub: (
                           <div className="h-1.5 bg-border rounded-full overflow-hidden mt-2">
-                            <div className="h-full rounded-full" style={{ width: `${(topic.score / 5) * 100}%`, background: scoreGradient(topic.score) }} />
+                            <div className="h-full rounded-full" style={{ width: `${(topic.score / topic.desiredScore) * 100}%`, background: scoreGradient(topic.score) }} />
                           </div>
                         ),
                       },
