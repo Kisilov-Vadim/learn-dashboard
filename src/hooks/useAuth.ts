@@ -2,6 +2,18 @@ import { useEffect, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 
+function notifyCli(session: Session) {
+  fetch('http://localhost:3333/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+      expires_at: (session.expires_at ?? Math.floor(Date.now() / 1000) + session.expires_in) * 1000,
+    }),
+  }).catch(() => {})
+}
+
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
@@ -11,7 +23,10 @@ export function useAuth() {
       setSession(data.session)
       setLoading(false)
     })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, s) => setSession(s))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, s) => {
+      setSession(s)
+      if (s) notifyCli(s)
+    })
     return () => subscription.unsubscribe()
   }, [])
 
