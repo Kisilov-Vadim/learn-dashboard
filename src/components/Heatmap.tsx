@@ -24,7 +24,7 @@ export function Heatmap({ touches, streak }: Props) {
 
   const { weeks, labelSpans, todayStr } = useMemo(() => {
     const now = new Date()
-    const todayStr = now.toISOString().slice(0, 10)
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
     let sm = now.getMonth() - 11
     let sy = now.getFullYear()
     if (sm < 0) { sm += 12; sy -= 1 }
@@ -62,7 +62,7 @@ export function Heatmap({ touches, streak }: Props) {
         if (off < 0 || off >= totalDays) return { dateStr: null, count: 0 }
         const d = new Date(rangeStart)
         d.setDate(d.getDate() + off)
-        const dateStr = d.toISOString().slice(0, 10)
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
         return { dateStr, count: activityMap.get(dateStr) || 0 }
       })
       weeks.push(col)
