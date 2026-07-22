@@ -1,5 +1,5 @@
 export type Level = 'beginner' | 'junior' | 'middle' | 'senior' | 'principal'
-export type Status = 'not-started' | 'learning' | 'mastered'
+export type Status = 'not-started' | 'learning' | 'mastered' | 'completed'
 export type Method = 'socratic' | 'reading+socratic' | 'feynman' | 'active-recall' | 'deep-dive' | 'diagnostic'
 export type Effectiveness = 'high' | 'medium' | 'low'
 
@@ -9,7 +9,7 @@ export interface Subject {
   streak: number
   currentLevel: Level
   totalTopics: number
-  mastered: number
+  completed: number
   dueToday: number
   completion: number
 }
@@ -23,6 +23,7 @@ export interface Topic {
   status: Status
   nextReview: string | null
   lastReviewed: string | null
+  desiredScore: number
   bestMethod: Method | null
   reviewCount: number
   prerequisites: string[]

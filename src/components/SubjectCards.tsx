@@ -45,7 +45,7 @@ export function SubjectCards({ subjects, onSelect, onLogout }: Props) {
               />
             </div>
             <div className="flex gap-3 text-sm">
-              <span className="text-muted">{s.mastered}/{s.totalTopics} mastered</span>
+              <span className="text-muted">{s.completed}/{s.totalTopics} completed</span>
               {s.dueToday > 0 && (
                 <span className="text-orange-400 font-semibold">{s.dueToday} due ⚡</span>
               )}

@@ -29,7 +29,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
   const todayStr = today()
   const q = query.toLowerCase().trim()
 
-  const dueTopics = topics.filter(t => t.nextReview && t.nextReview <= todayStr && t.status !== 'not-started')
+  const dueTopics = topics.filter(t => t.nextReview && t.nextReview <= todayStr && t.status !== 'not-started' && t.status !== 'completed')
   const isSearching = q.length > 0 || levelFilter !== 'all'
 
   const filtered = isSearching
@@ -108,7 +108,7 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
           {LEVELS.map((level, i) => {
             const levelTopics = topics.filter(t => t.level === level)
             if (levelTopics.length === 0) return null
-            const mastered = levelTopics.filter(t => t.score >= 4).length
+            const mastered = levelTopics.filter(t => t.status === 'completed').length
             const pct = (mastered / levelTopics.length) * 100
             const isOpen = openLevel === level
             const countColor = pct === 100 ? '#10b981' : pct > 0 ? '#eab308' : '#475569'
@@ -163,8 +163,9 @@ export function TopicsView({ topics, onOpenTopic }: Props) {
 function TopicRow({ topic, todayStr, onClick }: { topic: Topic; todayStr: string; onClick: () => void }) {
   const isDue = topic.nextReview && topic.nextReview <= todayStr
   const notStarted = topic.status === 'not-started'
+  const isCompleted = topic.status === 'completed'
   const color = scoreBorderColor(topic.score)
-  const pct = (topic.score / 5) * 100
+  const pct = (topic.score / topic.desiredScore) * 100
 
   return (
     <div
@@ -175,10 +176,11 @@ function TopicRow({ topic, todayStr, onClick }: { topic: Topic; todayStr: string
       <div className="flex justify-between items-center gap-2">
         <span className="text-[14px] font-medium text-white flex-1">{topic.name}</span>
         <div className="flex items-center gap-1.5 shrink-0">
-          {isDue && <span className="bg-[#431407] text-orange-400 text-[11px] font-semibold px-1.5 py-0.5 rounded">due</span>}
+          {isCompleted && <span className="bg-[#052e16] text-emerald-400 text-[11px] font-semibold px-1.5 py-0.5 rounded">done</span>}
+          {!isCompleted && isDue && <span className="bg-[#431407] text-orange-400 text-[11px] font-semibold px-1.5 py-0.5 rounded">due</span>}
           {notStarted
             ? <span className="text-[13px] text-faint">not started</span>
-            : <span className="text-[13px] font-semibold" style={{ color }}>{topic.score}/5</span>}
+            : <span className="text-[13px] font-semibold" style={{ color }}>{topic.score}/{topic.desiredScore}</span>}
           <span className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${LEVEL_TAG[topic.level]}`}>{topic.level}</span>
         </div>
       </div>
@@ -193,9 +195,12 @@ function TopicRow({ topic, todayStr, onClick }: { topic: Topic; todayStr: string
 
 function TopicRowCompact({ topic, todayStr, onClick }: { topic: Topic; todayStr: string; onClick: () => void }) {
   const notStarted = topic.status === 'not-started'
+  const isCompleted = topic.status === 'completed'
   const color = scoreBorderColor(topic.score)
-  const pct = (topic.score / 5) * 100
-  const dueStr = topic.nextReview
+  const pct = (topic.score / topic.desiredScore) * 100
+  const dueStr = isCompleted
+    ? 'completed'
+    : topic.nextReview
     ? (topic.nextReview <= todayStr ? `${formatDate(topic.nextReview)} ⚡` : formatDate(topic.nextReview))
     : 'not started'
 
@@ -207,7 +212,9 @@ function TopicRowCompact({ topic, todayStr, onClick }: { topic: Topic; todayStr:
     >
       <div className="flex justify-between items-center">
         <span className="text-[14px] font-medium text-white">{topic.name}</span>
-        <span className="text-[13px]" style={{ color }}>{notStarted ? 'not started' : `${topic.score}/5 · ${dueStr}`}</span>
+        <span className="text-[13px]" style={{ color: isCompleted ? '#10b981' : color }}>
+          {notStarted ? 'not started' : `${topic.score}/${topic.desiredScore} · ${dueStr}`}
+        </span>
       </div>
       {!notStarted && (
         <div className="h-[3px] bg-border rounded-full mt-1 overflow-hidden">
